@@ -21,9 +21,14 @@ namespace PhoneBookMvc
         // GET: person
         public async Task<IActionResult> Index()
         {
-              return _context.Persons != null ? 
+          
+            var personWithPhones = _context.Persons
+    .Include(p => p.Phones).ToList();
+
+            return _context.Persons
+    .Include(p => p.Phones).ToList() != null ?
                           View(await _context.Persons.ToListAsync()) :
-                          Problem("Entity set 'PhoneBookContext.Persons'  is null.");
+                          Problem("Entity set 'PhoneBookContext.Persons'  is null."); ;
         }
 
         // GET: person/Details/5
@@ -73,12 +78,15 @@ namespace PhoneBookMvc
             {
                 return NotFound();
             }
-
+          
             var person = await _context.Persons.FindAsync(id);
+
             if (person == null)
             {
                 return NotFound();
             }
+           person =_context.Persons
+          .Include(p => p.Phones).First(t => t.Id == person.Id);
             return View(person);
         }
 
