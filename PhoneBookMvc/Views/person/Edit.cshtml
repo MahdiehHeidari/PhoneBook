@@ -84,16 +84,22 @@
                                     <span asp-validation-for="@item.PhoneNumber" class="text-danger"></span>
                                     @if (@item.Type == PhoneType.Home)
                                     {
-                                        <i class="bi bi-house"></i>
 
-                                    }
+                                        <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon-home"></span></i>
 
-                                    else
+
+                                        }
+                                        else if (@item.Type == PhoneType.Work)
                                     {
-                                        <i class="bi bi-suitcase"></i>
+                                    <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon-briefcase"></span></i>
+
+                                        }
+                                        else if (@item.Type == PhoneType.Mobile)
+                                        {
+                                    <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon glyphicon-phone"></span></i>
+
 
                                     }
-                                    <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon-edit"></span></i>
                                 </div>
 
                                 @item.Type

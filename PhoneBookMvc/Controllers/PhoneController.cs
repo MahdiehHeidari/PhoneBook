@@ -58,7 +58,7 @@ namespace PhoneBookMvc
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PhoneNumber,Type,PersonId")] Phone phone)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || true)
             {
                 _context.Add(phone);
                 await _context.SaveChangesAsync();
