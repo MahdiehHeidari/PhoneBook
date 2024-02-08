@@ -165,3 +165,12 @@ td.text-center {
 td.text-right {
     text-align: right;
 }
+
+.parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+

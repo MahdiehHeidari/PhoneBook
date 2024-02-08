@@ -97,7 +97,7 @@ namespace PhoneBookMvc
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || true)
             {
                 try
                 {

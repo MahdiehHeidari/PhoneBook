@@ -95,14 +95,14 @@ namespace PhoneBookMvc
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Phones")] Person person)
         {
             if (id != person.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || true)
             {
                 try
                 {
@@ -165,6 +165,19 @@ namespace PhoneBookMvc
         private bool PersonExists(int id)
         {
           return (_context.Persons?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+
+        [HttpPost]
+        public void SaveData(Person model)
+        {
+            
+         
+            var x = 3;
+            var y = 2;
+            // Access form data via model.JobId
+            // Process the data as needed
+            // Return appropriate result (e.g., RedirectToAction or JsonResult)
         }
     }
 }
