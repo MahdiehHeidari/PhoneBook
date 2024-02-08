@@ -26,8 +26,13 @@ namespace PhoneBookMvc
         }
 
         // GET: Phone/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id,int? PersonId)
         {
+            if(PersonId !=null)
+            {
+                var person = _context.Persons.Find(PersonId);
+                var phones = person.Phones;
+            }
             if (id == null || _context.Phones == null)
             {
                 return NotFound();
@@ -69,14 +74,27 @@ namespace PhoneBookMvc
         }
 
         // GET: Phone/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id,int? personId)
         {
+
+          
             if (id == null || _context.Phones == null)
             {
                 return NotFound();
             }
 
             var phone = await _context.Phones.FindAsync(id);
+            if (phone.PersonId != null )
+            {
+              
+
+                // First, find the person by their PersonId
+                var person = _context.Persons.Find(phone.PersonId); // Replace 'personId' with the actual ID
+
+                // Next, explicitly load the Phones navigation property
+                _context.Entry(person).Collection(p => p.Phones).Load();
+
+            }
             if (phone == null)
             {
                 return NotFound();
@@ -92,6 +110,15 @@ namespace PhoneBookMvc
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PhoneNumber,Type,PersonId")] Phone phone)
         {
+            if (phone.PersonId != null)
+            {
+                var person = _context.Persons.Find(phone.PersonId);
+                var phones = person.Phones;
+            }
+            if (id == null || _context.Phones == null)
+            {
+                return NotFound();
+            }
             if (id != phone.Id)
             {
                 return NotFound();
@@ -163,5 +190,37 @@ namespace PhoneBookMvc
         {
           return (_context.Phones?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+        // POST: Phone/PhonesWithPersonId
+        [HttpGet]
+        [ActionName("PhonesWithPersonId")]
+        public async Task<IActionResult> PhonesWithPersonId(int? id)
+        {
+            
+                var phoneBookContext = _context.Phones.Include(p => p.Person);
+            
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var person = _context.Persons.Find(id); // Replace 'personId' with the actual ID
+            if (person == null)
+            {
+                return NotFound();
+            }
+            // Next, explicitly load the Phones navigation property
+            _context.Entry(person).Collection(p => p.Phones).Load();
+
+            var phones = person.Phones;
+            
+            if (ModelState.IsValid || true)
+            {
+
+                return View(phones);
+            }
+            
+            return View(phones);
+        
+    }
+
     }
 }
