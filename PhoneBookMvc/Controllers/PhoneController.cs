@@ -26,13 +26,8 @@ namespace PhoneBookMvc
         }
 
         // GET: Phone/Details/5
-        public async Task<IActionResult> Details(int? id,int? PersonId)
+        public async Task<IActionResult> Details(int? id)
         {
-            if(PersonId !=null)
-            {
-                var person = _context.Persons.Find(PersonId);
-                var phones = person.Phones;
-            }
             if (id == null || _context.Phones == null)
             {
                 return NotFound();
@@ -50,9 +45,16 @@ namespace PhoneBookMvc
         }
 
         // GET: Phone/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id");
+
+            //ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id");
+            if(id != null)
+            {
+                ViewData["PersonId"] = id;
+            }
+            
+           // ViewData["PersonId"] = phone.PersonId;
             return View();
         }
 
@@ -61,20 +63,23 @@ namespace PhoneBookMvc
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PhoneNumber,Type,PersonId")] Phone phone)
+        public async Task<IActionResult> Create([Bind("PhoneNumber,Type,PersonId")] Phone phone)
         {
             if (ModelState.IsValid || true)
             {
                 _context.Add(phone);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(PhonesWithPersonId), new { id = phone.PersonId });
+
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", phone.PersonId);
+            ViewData["PersonId"] = phone.PersonId;
+            // ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", phone.PersonId);
             return View(phone);
         }
 
         // GET: Phone/Edit/5
-        public async Task<IActionResult> Edit(int? id,int? personId)
+        public async Task<IActionResult> Edit(int? id)
         {
 
           
@@ -84,22 +89,13 @@ namespace PhoneBookMvc
             }
 
             var phone = await _context.Phones.FindAsync(id);
-            if (phone.PersonId != null )
-            {
-              
 
-                // First, find the person by their PersonId
-                var person = _context.Persons.Find(phone.PersonId); // Replace 'personId' with the actual ID
-
-                // Next, explicitly load the Phones navigation property
-                _context.Entry(person).Collection(p => p.Phones).Load();
-
-            }
             if (phone == null)
             {
                 return NotFound();
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", phone.PersonId);
+            ViewData["PersonId"] = phone.PersonId;
+            // ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", phone.PersonId);
             return View(phone);
         }
 
@@ -142,9 +138,11 @@ namespace PhoneBookMvc
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(PhonesWithPersonId), new { id = phone.PersonId });
+                // return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", phone.PersonId);
+            ViewData["PersonId"] = id;
+            // ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "Id", phone.PersonId);
             return View(phone);
         }
 
@@ -183,7 +181,9 @@ namespace PhoneBookMvc
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(PhonesWithPersonId), new { id = phone.PersonId });
+
+          //  return RedirectToAction(nameof(Index));
         }
 
         private bool PhoneExists(int id)
@@ -211,9 +211,16 @@ namespace PhoneBookMvc
             _context.Entry(person).Collection(p => p.Phones).Load();
 
             var phones = person.Phones;
-            
+
+
+            if( phones.Count == 0)
+            {
+                return RedirectToAction(nameof(Create), new { id = id });
+
+            }
             if (ModelState.IsValid || true)
             {
+                ViewData["PersonId"] = id;
 
                 return View(phones);
             }

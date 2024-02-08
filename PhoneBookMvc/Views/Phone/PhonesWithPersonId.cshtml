@@ -13,26 +13,31 @@
 </head>
 <body>
     <p>
-        <a asp-action="Create">Create New</a>
+        @{
+            int x = @Model.FirstOrDefault().PersonId; ;
+        }
+
+        <a asp-action="Create" asp-route-id="@x">Create</a>
+
     </p>
     <table class="table">
         <thead>
             <tr>
-               
-                    <th>
-                        PhoneNumber
 
-                    </th>
-                    <th>
-                       Type
+                <th>
+                    PhoneNumber
 
-                    </th>
-                    <th>
-                       Person.Id
-                    </th>
-                    <th></th>
-                    
-                </tr>
+                </th>
+                <th>
+                    Type
+
+                </th>
+                <th>
+                    Person.Id
+                </th>
+                <th></th>
+
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
@@ -56,5 +61,10 @@
             }
         </tbody>
     </table>
+    <div>
+        <a href="/person/Index">Back to PhoneBook</a>
+       
+    </div>
+
 </body>
 </html>

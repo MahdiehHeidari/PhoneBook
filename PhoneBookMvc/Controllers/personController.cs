@@ -62,7 +62,7 @@ namespace PhoneBookMvc
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName")] Person person)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || true)
             {
                 _context.Add(person);
                 await _context.SaveChangesAsync();
@@ -97,11 +97,7 @@ namespace PhoneBookMvc
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Phones")] Person person)
         {
-            if (id != person.Id)
-            {
-                return NotFound();
-            }
-
+          
             if (ModelState.IsValid || true)
             {
                 try
