@@ -9,62 +9,93 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/site.css">
     <title>Index</title>
 </head>
 <body>
-    <p>
-        @{
-            int x = @Model.FirstOrDefault().PersonId; ;
-        }
+    <div class="container">
 
-        <a asp-action="Create" asp-route-id="@x">Create</a>
+        <p>
+            @{
+                int x = @Model.FirstOrDefault().PersonId; ;
+            }
 
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
 
-                <th>
-                    PhoneNumber
+        </p>
 
-                </th>
-                <th>
-                    Type
-
-                </th>
-                <th>
-                    Person.Id
-                </th>
-                <th></th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+        <table class="table-fill">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Person.Id)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <td colspan="4">
+                        <center>
+                            <b>Phones</b>
+
+                        </center>
+
                     </td>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <div>
-        <a href="/person/Index">Back to PhoneBook</a>
-       
+                <tr>
+
+                    <th>
+                        PhoneNumber
+
+                    </th>
+                    <th>
+                        Type
+
+                    </th>
+                    <th>
+                        Person.Id
+                    </th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+
+                    <th colspan="4">
+                        <div class="form-group">
+
+                            <div class="col-md-4">
+                                <a href="/person/Index" class="btn btn-primary">Back to PhoneBook</a>
+                            </div>
+                            <div class="col-md-4">
+                                <a asp-action="Create" asp-route-id="@x" class="btn btn-primary">Add new Phone</a>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Person.Id)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+     
+
+        </table>
+     
+    
     </div>
+      
 
 </body>
 </html>
