@@ -18,7 +18,7 @@
 
         <p>
             @{
-                int x = @Model.FirstOrDefault().PersonId; ;
+                int pId = @Model.FirstOrDefault().PersonId; ;
             }
 
 
@@ -62,7 +62,11 @@
                                 <a href="/person/Index" class="btn btn-primary">Back to PhoneBook</a>
                             </div>
                             <div class="col-md-4">
-                                <a asp-action="Create" asp-route-id="@x" class="btn btn-primary">Add new Phone</a>
+                                <a href="/Person/Edit?id=@pId">Back to PhoneBook</a>
+
+                          </div>
+                            <div class="col-md-4">
+                                <a asp-action="Create" asp-route-id="@pId" class="btn btn-primary">Add new Phone</a>
                             </div>
                         </div>
                     </th>
@@ -83,7 +87,7 @@
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                         
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
