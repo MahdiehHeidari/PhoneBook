@@ -162,13 +162,26 @@ namespace PhoneBookMvc
             var phone = await _context.Phones
                 .Include(p => p.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var pId = phone.PersonId;
             if (phone == null)
             {
                 return NotFound();
             }
-            var x =DeleteConfirmed((int)id);
-            // return View(phone);
-            return RedirectToAction(nameof(PhonesWithPersonId), new { id = phone.PersonId });
+          
+            if (_context.Phones == null)
+            {
+                return Problem("Entity set 'PhoneBookContext.Phones'  is null.");
+            }
+            var phone2 = await _context.Phones.FindAsync(id);
+            // int personId = phone.PersonId;
+            if (phone2 != null)
+            {
+                _context.Phones.Remove(phone2);
+            }
+
+            await _context.SaveChangesAsync();
+            //return View(phone);
+            return RedirectToAction(nameof(PhonesWithPersonId), new { id = pId ,noadd = false});
 
         }
 
@@ -177,20 +190,22 @@ namespace PhoneBookMvc
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+           
             if (_context.Phones == null)
             {
                 return Problem("Entity set 'PhoneBookContext.Phones'  is null.");
             }
             var phone = await _context.Phones.FindAsync(id);
+           // int personId = phone.PersonId;
             if (phone != null)
             {
                 _context.Phones.Remove(phone);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(PhonesWithPersonId), new { id = phone.PersonId });
+           // return RedirectToAction(nameof(PhonesWithPersonId), new { id = personId });
 
-          //  return RedirectToAction(nameof(Index));
+           return RedirectToAction(nameof(Index));
         }
 
         private bool PhoneExists(int id)
@@ -200,7 +215,7 @@ namespace PhoneBookMvc
         // POST: Phone/PhonesWithPersonId
         [HttpGet]
         [ActionName("PhonesWithPersonId")]
-        public async Task<IActionResult> PhonesWithPersonId(int? id)
+        public async Task<IActionResult> PhonesWithPersonId(int? id,bool? noAdd=true)
         {
             
                 var phoneBookContext = _context.Phones.Include(p => p.Person);
@@ -220,12 +235,17 @@ namespace PhoneBookMvc
             var phones = person.Phones;
 
 
-            if( phones.Count == 0)
+            if( phones.Count == 0 && noAdd ==true)
             {
                 return RedirectToAction(nameof(Create), new { id = id });
 
             }
-            if (ModelState.IsValid || true)
+            if(phones.Count == 0 && noAdd == false)
+            {
+             
+                return RedirectToAction("Index", "Person");
+            }
+            if (ModelState.IsValid || true )
             {
                 ViewData["PersonId"] = id;
 
