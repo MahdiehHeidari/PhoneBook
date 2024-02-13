@@ -161,8 +161,10 @@ namespace PhoneBookMvc
             {
                 return NotFound();
             }
+            var x =DeleteConfirmed((int)id);
+            // return View(phone);
+            return RedirectToAction(nameof(PhonesWithPersonId), new { id = phone.PersonId });
 
-            return View(phone);
         }
 
         // POST: Phone/Delete/5

@@ -38,12 +38,12 @@
                 </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 
                 <input asp-for="PersonId" class="form-control" readonly/>
               
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <label asp-for="PersonId" class="form-control" asp-items="@ViewData.FirstOrDefault().Value">@ViewData.FirstOrDefault().Value</label>
 
             </div>
@@ -56,7 +56,7 @@
 </div>
 
 <div>
-   <a asp-action="PhonesWithPersonId" asp-route-id="@Model.PersonId">Back to List</a>
+   <a asp-action="PhonesWithPersonId" asp-route-id="@Model.PersonId" class="btn btn-primary">Back to List</a>
 </div>
 
 </body>

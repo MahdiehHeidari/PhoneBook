@@ -45,10 +45,12 @@
                         Type
 
                     </th>
-                    <th>
+                    <th style="display:none;">
                         Person.Id
                     </th>
-                    <th></th>
+                    <th>
+                        Actions
+                    </th>
 
                 </tr>
             </thead>
@@ -62,7 +64,7 @@
                                 <a href="/person/Index" class="btn btn-primary">Back to PhoneBook</a>
                             </div>
                             <div class="col-md-4">
-                                <a href="/Person/Edit?id=@pId">Back to PhoneBook</a>
+                                <a href="/Person/Edit?id=@pId" class="btn btn-primary" >Back to Edit</a>
 
                           </div>
                             <div class="col-md-4">
@@ -82,7 +84,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Type)
                         </td>
-                        <td>
+                        <td style="display:none;">
                             @Html.DisplayFor(modelItem => item.Person.Id)
                         </td>
                         <td>
