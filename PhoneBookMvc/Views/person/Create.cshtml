@@ -69,8 +69,7 @@
                 </div>
 
 
-                <button type="submit" style="display:none;">ذخیره</button>
-
+               
         </form>
     </div>
 
@@ -91,9 +90,11 @@ function validateAndSave() {
 
     clearErrorMessages();
     if (NameIsPersian === false) {
+       
         displayErrorMessage(firstNameInput, 'لطفا از حروف الفبای فارسی استفاده شود ');
         return; // Stop further processing
     }
+   
     if (lastNameIsPersian === false) {
         displayErrorMessage(lastNameInput, 'لطفا از حروف الفبای فارسی استفاده شود ');
        return; // Stop further processing

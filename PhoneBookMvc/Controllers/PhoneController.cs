@@ -67,6 +67,11 @@ namespace PhoneBookMvc
         {
             if (ModelState.IsValid || true)
             {
+                if(phone.PhoneNumber == null)
+                {
+                    return RedirectToAction(nameof(PhonesWithPersonId), new { id = phone.PersonId });
+
+                }
                 _context.Add(phone);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
