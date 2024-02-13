@@ -26,7 +26,6 @@ body {
     width: 100%; /* Full width */
     height: 100vh; /* Full viewport height */
 }
-
 .white-background {
     background-color: gray;
     margin: 10%;
@@ -67,7 +66,7 @@ body {
 
 th {
     color: #D5DDE5;
-    ;
+    
     background: #1b1e24;
     border-bottom: 4px solid #9ea7af;
     border-right: 1px solid #343a45;
@@ -90,7 +89,7 @@ th {
 
 tr {
     border-top: 1px solid #C1C3D1;
-    border-bottom-: 1px solid #C1C3D1;
+    border-bottom: 1px solid #C1C3D1;
     color: #666B85;
     font-size: 16px;
     font-weight: normal;
@@ -174,3 +173,52 @@ td.text-right {
 
 
 
+.label-container {
+    position: fixed;
+    bottom: 48px;
+    right: 105px;
+    display: table;
+    visibility: hidden;
+}
+
+.label-text {
+    color: #FFF;
+    background: rgba(51,51,51,0.5);
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.label-arrow {
+    display: table-cell;
+    vertical-align: middle;
+    color: #333;
+    opacity: 0.5;
+}
+
+.wp-button {
+    margin-top: 14px;
+}
+
+
+
+
+.contact-action {
+    position: fixed;
+    bottom: 10%;
+    right: 9%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #609ea0;
+    background: #FFF;
+    border-radius: 50%;
+    transition: 0.5s;
+    box-shadow: 1px 3px 1px 0px #0000008c;
+}

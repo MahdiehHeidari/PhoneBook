@@ -21,7 +21,7 @@ namespace PhoneBookMvc
         // GET: person
         public async Task<IActionResult> Index()
         {
-          
+
             var personWithPhones = _context.Persons
     .Include(p => p.Phones).ToList();
 
@@ -52,19 +52,73 @@ namespace PhoneBookMvc
         // GET: person/Create
         public IActionResult Create()
         {
-            return View();
+          
+            var persons = new Person();
+            persons.Phones = new List<Phone>();
+
+            return View(persons);
+          
+        }
+        public ActionResult AddChild()
+        {
+            return PartialView("ChildRow", new Phone());
         }
 
+
+
+
+
+        [HttpPost]
+        public ActionResult Create(Person viewModel)
+        {
+            var per = new Person();
+            if (ModelState.IsValid || true)
+            {
+               
+              
+                _context.Persons.Add(viewModel);
+                _context.SaveChanges();
+               
+            }
+
+            return View(viewModel);
+        }
         // POST: person/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName")] Person person)
+        public async Task<IActionResult> Created([Bind("Id,FirstName,LastName,Phones")] Person person)
         {
+
+            var proj = new Person();
+           
+           
             if (ModelState.IsValid || true)
             {
-                _context.Add(person);
+             //   person.Phones = person.Phones.Select(phone => new Phone { PhoneNumber = phone.PhoneNumber }).ToList();
+
+                
+                if (ModelState.IsValid || true)
+                {
+                    proj.LastName = person.LastName;
+
+                    proj.FirstName = person.FirstName;
+
+                    proj.Phones = new List<Phone>();
+
+                    foreach (var t in proj.Phones)
+                    {
+                        proj.Phones.Add(new Phone()
+                        {
+                            PhoneNumber = t.PhoneNumber,
+                            Type = t.Type
+                        });
+                    }
+
+                  
+                }
+                _context.Add(proj);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

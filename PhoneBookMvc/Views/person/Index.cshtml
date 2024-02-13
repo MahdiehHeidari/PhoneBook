@@ -15,6 +15,9 @@
     <title>Index</title>
 </head>
 <body>
+    <div class='contact-action'>
+        +
+    </div>
     <div class="container">
         <div class="black-overlay">
 
@@ -69,48 +72,19 @@
                         </tr>
                     }
                 </tbody>
+
+
+
             </table>
+            <div >
+                <a asp-action="Create"  class='contact-action'>+</a> |
+            </div>
         </div>
 
     </div>
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>Phones</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        123
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+
 </body>
 </html>
+

@@ -73,6 +73,7 @@
                     }
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
+                          
                             @foreach (var item in Model.Phones)
                             {
 
@@ -88,15 +89,15 @@
                                         <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon-home"></span></i>
 
 
-                                        }
-                                        else if (@item.Type == PhoneType.Work)
+                                    }
+                                    else if (@item.Type == PhoneType.Work)
                                     {
-                                    <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon-briefcase"></span></i>
+                                        <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon-briefcase"></span></i>
 
-                                        }
-                                        else if (@item.Type == PhoneType.Mobile)
-                                        {
-                                    <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon glyphicon-phone"></span></i>
+                                    }
+                                    else if (@item.Type == PhoneType.Mobile)
+                                    {
+                                        <i class="material-icons" style="padding:5px"> <span class="glyphicon glyphicon glyphicon-phone"></span></i>
 
 
                                     }
