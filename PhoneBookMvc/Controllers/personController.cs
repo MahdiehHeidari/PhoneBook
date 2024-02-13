@@ -78,7 +78,7 @@ namespace PhoneBookMvc
               
                 _context.Persons.Add(viewModel);
                 _context.SaveChanges();
-               
+                return RedirectToAction(nameof(Index));
             }
 
             return View(viewModel);
@@ -218,16 +218,5 @@ namespace PhoneBookMvc
         }
 
 
-        [HttpPost]
-        public void SaveData(Person model)
-        {
-            
-         
-            var x = 3;
-            var y = 2;
-            // Access form data via model.JobId
-            // Process the data as needed
-            // Return appropriate result (e.g., RedirectToAction or JsonResult)
-        }
     }
 }

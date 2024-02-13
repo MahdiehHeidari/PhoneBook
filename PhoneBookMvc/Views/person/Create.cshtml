@@ -28,6 +28,8 @@
 
             <div class="form-group">
                 <label class="col-md-4 control-label">First Name</label>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -37,52 +39,84 @@
                     </div>
                 </div>
             </div>
-            <!-- LastName-->
+           
+                <!-- LastName-->
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">Last Name</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Last Name</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Phones-->
+                <!-- Phones-->
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">Phone</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <div id="phoneContainer">
-                                   <!-- اینجا فیلدها با جاوااسکریپت ایجاد می‌شوند -->      
-                          </div>
-                        <button type="button" onclick="addPhoneNumber()">افزودن تلفن</button>
-                        <button type="button" onclick="validateAndSave()">ذخیره</button>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Phone</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <div id="phoneContainer">
+                                <!-- اینجا فیلدها با جاوااسکریپت ایجاد می‌شوند -->
+                            </div>
+                            <button type="button" onclick="addPhoneNumber()">افزودن تلفن</button>
+                            <button type="button" onclick="validateAndSave()">ذخیره</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-       
 
-            <button type="submit" style="display:none;">ذخیره</button>
+
+                <button type="submit" style="display:none;">ذخیره</button>
 
         </form>
     </div>
 
-        <script>function validateAndSave() {        // اعمال محدودیت‌ها به تمام ایمپوت‌ها
+    <script>
+function validateAndSave() {
+    // Check if First Name and Last Name are empty
+    var firstNameInput = document.querySelector('input[name="FirstName"]');
+    var lastNameInput = document.querySelector('input[name="LastName"]');
+
+    var firstName = firstNameInput.value;
+    var lastName = lastNameInput.value;
+    var regexPersian = new RegExp("^([\u0600-\u06FF]+\s?)+$");
+
+    var NameIsPersian = regexPersian.test(firstName);
+    var lastNameIsPersian = regexPersian.test(lastName);
+    
+
+
+    clearErrorMessages();
+    if (NameIsPersian === false) {
+        displayErrorMessage(firstNameInput, 'لطفا از حروف الفبای فارسی استفاده شود ');
+        return; // Stop further processing
+    }
+    if (lastNameIsPersian === false) {
+        displayErrorMessage(lastNameInput, 'لطفا از حروف الفبای فارسی استفاده شود ');
+       return; // Stop further processing
+    }
+    if (firstName === '') {
+        displayErrorMessage(firstNameInput, 'نام نمیتواند خالی باشد');
+        return; // Stop further processing
+    }
+    if (firstName.length < 3) {
+        displayErrorMessage(firstNameInput, 'نام باید حداقل شامل سه حرف باشد ');
+        return; // Stop further processing
+    }
+    if (lastName === '') {
+        displayErrorMessage(lastNameInput, 'نام خانوادگی نمیتواند خالی باشد ');
+        return; // Stop further processing
+    }
+
+
+    // اعمال محدودیت‌ها به تمام ایمپوت‌ها
                 var phoneInputs = document.querySelectorAll('#phoneContainer input[type="text"]');
                 var typeSelects = document.querySelectorAll('#phoneContainer select[name^="Phones"]');
 
-                for (var i = 0; i < phoneInputs.length; i++) {
 
-                    var phoneNumber = phoneInputs[i].value;
-
-                    var selectedType = typeSelects[i].value;
-
-
-                }
                 var accepted = true;
                 for (var i = 0; i < phoneInputs.length; i++) {
                     var phoneNumber = phoneInputs[i].value;
@@ -93,6 +127,7 @@
                     if (constraintMessage != 'ok') {
                         accepted = false;
                         constraintSpan.innerText = constraintMessage;
+
                     }
                     else if (constraintMessage == 'ok') {
                         constraintSpan.innerText = null;
@@ -105,6 +140,7 @@
 
 
             }
+
             function validatePhoneNumber(phoneNumber, selectedType) {
 
                 var regexMobile = new RegExp("^(\\+98|0)?9\\d{9}$");
@@ -112,7 +148,7 @@
 
 
                 if (phoneNumber == '0') {
-                    return 'لطفا شماره تلفن را وارد کنید';
+                    return 'شماره تلفن نمیتواند خالی باشد';
                 }
                 if (selectedType == '-1') {
                     return 'لطفا  نوع شماره تلفن را وارد کنید';
@@ -128,7 +164,26 @@
                 }
                 return 'ok';
 
-            }</script>
+            }
+            function displayErrorMessage(element, errorMessage) {
+                // Create and insert an error message element below the specified element
+                var errorMessageElement = document.createElement('span');
+                errorMessageElement.classList.add('text-danger');
+                errorMessageElement.style.display = 'block'; // Make it a block element
+                errorMessageElement.innerText = errorMessage;
+
+                // Insert the error message below the specified element
+                element.parentNode.appendChild(errorMessageElement);
+            }
+            function clearErrorMessages() {
+                // Remove all existing error messages
+                var existingErrorMessages = document.querySelectorAll('.text-danger');
+                existingErrorMessages.forEach(function (element) {
+                    element.remove();
+                });
+            }
+
+    </script>
 
         <div>
             <a asp-action="Index">Back to List</a>
